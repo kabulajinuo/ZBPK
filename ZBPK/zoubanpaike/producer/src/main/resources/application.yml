@@ -1,0 +1,121 @@
+server:
+  port: 1002
+  servlet:
+    context-path: /
+#Config Alibaba's Druid DataSource
+spring:
+  datasource:
+    name: testname
+    url: jdbc:mysql://47.107.116.88:3306/zbpk_dev?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&autoReconnect=true&allowMultiQueries=true
+    username: db_djl
+    password: dengjialuo!@#123
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    max-active: 20
+    initial-size: 10
+    max-wait: 60000
+    min-idle: 1
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    validation-query: select 'x'
+    test-while-idle: true
+    test-on-borrow: true
+    test-on-return: true
+    pool-prepared-statements: true
+    max-open-prepared-statements: 20
+  redis:
+    host: 47.104.8.131
+    password: 19941016jin
+    port: 6179
+    ssl: false
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    timeout: 30000
+  application:
+    name: zbpk-producer-service
+  jackson:
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss # Timestamp convert
+    time-zone: GMT+8
+  jmx:
+    default-domain: zbpk-producer-service
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true # 设置本客户端是否从服务注册中心获取服务 默认true
+    serviceUrl:
+      defaultZone: http://zbpk:19941016jin@localhost:1009/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30 # 设置注册的服务多久向服务注册中心发送心跳包(单位s)
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance-id:${server.port}}
+
+# 开启hystrix 断路器
+feign:
+  hystrix:
+    enabled: true
+# 超时时间（默认1000ms，单位：ms）在调用方配置，被该调用方的所有方法的超时时间都是该值
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+  threadpool:
+    default:
+      coreSize: 10 # 线程池核心线程数（默认为10）
+
+#请求处理的超时时间
+ribbon:
+  ReadTimeout: 100000
+  SocketTimeout: 100000
+  #请求连接的超时时间
+  ConnectTimeout: 100000
+# 配置需要监听的Feign客户端调用日志,Feign日志记录仅响应DEBUG级别
+logging:
+  level:
+    dckj:
+      arrange:
+        feign:
+          FTPClient: DEBUG
+          RedisClient: DEBUG
+          UserClient: DEBUG
+        producer:
+          mapper: DEBUG  #打印sql语句
+  config: classpath:logback.xml
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  typeAliasesPackage: dckj.arrange.common.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 1
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 1
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+# 项目相关配置
+dckj:
+  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
+  profile: classpath:template

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkTeacherClassCopyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkTeacherClassCopy">
+        <id column="id" property="id" />
+        <result column="teacher_id" property="teacherId" />
+        <result column="teacher_name" property="teacherName" />
+        <result column="class_id" property="classId" />
+        <result column="class_name" property="className" />
+        <result column="task_id" property="taskId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, teacher_id AS teacherId, teacher_name AS teacherName, class_id AS classId, class_name AS className, task_id AS taskId, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+    <select id="getTeacherClassList" parameterType="dckj.arrange.common.model.request.BaseReq" resultType="dckj.arrange.common.model.TeacherClassDto">
+        SELECT ptt.teacher_id teacherId, ptt.teacher_name teacherName, ptt.subject_id subjectId,
+        ps.subject_name subjectName, ptc.class_id classId, ptc.class_name className, pcr.room_id roomId,
+        pcr.room_name roomName, pcr.site_id siteId, pcr.site_name siteName, pcs.must_number mustNumber,
+        pcs.choice_number choiceNumber, ptt.continuou_num continuouNum
+        FROM
+        pk_curriculum_set pcs
+        RIGHT JOIN
+        pk_teaching_task ptt
+        ON
+        pcs.subject_id=ptt.subject_id AND ptt.task_id=#{taskId}
+        RIGHT JOIN
+        pk_teacher_class_copy ptc
+        ON
+        ptt.teacher_id=ptc.teacher_id AND ptc.task_id=#{taskId}
+        INNER JOIN
+        pk_subject ps
+        ON
+        ptt.subject_id=ps.subject_id
+        INNER JOIN
+        pk_class_room pcr
+        ON
+        ptc.class_id=pcr.class_id AND pcr.task_id=#{taskId}
+        WHERE
+        pcs.task_id=#{taskId}
+        AND
+        pcs.level=#{level}
+        AND ptc.class_id=#{classId};
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkRoomTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkRoomType">
+        <id column="type_id" property="typeId" />
+        <result column="type_name" property="typeName" />
+        <result column="create_time" property="createTime" />
+        <result column="school_code" property="schoolCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        type_id , type_name , create_time , school_code
+    </sql>
+
+    <select id="selectListBySchoolCode" resultMap="BaseResultMap"
+            parameterType="dckj.arrange.common.model.request.RoomTypeVo">
+        select
+        <include refid="Base_Column_List"/>
+        from pk_room_type
+        <if test="schoolCode != null and schoolCode != ''">
+            <where>
+                and school_code = #{schoolCode,jdbcType=VARCHAR}
+            </where>
+        </if>
+        order  by create_time desc
+    </select>
+    <select id="selectTypeIdByName" parameterType="java.util.Map" resultMap="BaseResultMap">
+          select type_id from pk_room_type where  type_name = #{typeName} and school_code = #{schoolCode}
+    </select>
+</mapper>

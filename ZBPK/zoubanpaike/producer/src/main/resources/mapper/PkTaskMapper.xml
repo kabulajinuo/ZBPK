@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkTask">
+        <id column="id" property="id" />
+        <result column="task_name" property="taskName" />
+        <result column="grade_id" property="gradeId" />
+        <result column="grade_name" property="gradeName" />
+        <result column="class_number" property="classNumber" />
+        <result column="school_year" property="schoolYear" />
+        <result column="semester_type" property="semesterType" />
+        <result column="pk_type" property="pkType" />
+        <result column="xk_mode" property="xkMode" />
+        <result column="school_code" property="schoolCode" />
+        <result column="type" property="type" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, task_name AS taskName, grade_id AS gradeId, grade_name AS gradeName, class_number AS classNumber, school_year AS schoolYear, semester_type AS semesterType, pk_type AS pkType, xk_mode AS xkMode, school_code AS schoolCode, type, user_id AS userId, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+    <select id="selectPktask" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from  pk_task where  school_code =#{schoolCode} and user_id =#{userId} order by create_time DESC
+    </select>
+</mapper>

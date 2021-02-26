@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkTeacherPositionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkTeacherPosition">
+        <id column="post_id" property="postId"/>
+        <result column="post_name" property="postName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="school_code" property="schoolCode"/>
+        <result column="post_code" property="postCode"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="dckj.arrange.common.model.request.TeacherPositionVo">
+        <result column="post_ids" property="postIds"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        post_id , post_name, create_time ,school_code ,post_code
+    </sql>
+
+    <select id="selectListBySchoolCode" resultMap="BaseResultMap"
+            parameterType="dckj.arrange.common.model.request.TeacherPositionVo">
+        select
+        <include refid="Base_Column_List"/>
+        from pk_teacher_position
+        <if test="schoolCode != null and schoolCode != ''">
+            <where>
+                and school_code = #{schoolCode,jdbcType=VARCHAR}
+            </where>
+        </if>
+        order  by create_time desc
+    </select>
+    <select id="selectPostIdsByName" parameterType="java.util.Map" resultMap="BaseResultMap1">
+          select group_concat(ptp.post_id) as post_ids from pk_teacher_position ptp where FIND_IN_SET(ptp.post_name,#{postNames})
+                  and ptp.school_code = #{schoolCode}
+    </select>
+</mapper>

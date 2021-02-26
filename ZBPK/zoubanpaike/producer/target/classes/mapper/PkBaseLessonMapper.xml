@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkBaseLessonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkBaseLesson">
+        <id column="task_id" property="taskId"/>
+        <result column="start_day" property="startDay"/>
+        <result column="end_day" property="endDay"/>
+        <result column="morning" property="morning"/>
+        <result column="afternoon" property="afternoon"/>
+        <result column="duration" property="duration"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="school_code" property="schoolCode"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="dckj.arrange.common.model.request.BaseLessonReq">
+        <id column="task_id" property="taskId"/>
+        <result column="start_day" property="startDay"/>
+        <result column="end_day" property="endDay"/>
+        <result column="morning" property="morning"/>
+        <result column="afternoon" property="afternoon"/>
+        <result column="duration" property="duration"/>
+        <result column="school_code" property="schoolCode"/>
+        <collection property="pkLessonDetailList" ofType="dckj.arrange.common.entity.PkLessonDetail" javaType="java.util.List">
+            <result column="lesson_name" property="lessonName"/>
+            <result column="start_time" property="startTime"/>
+            <result column="end_time" property="endTime"/>
+            <result column="detail_duration" property="detailDuration"/>
+            <result column="free_time" property="freeTime"/>
+            <result column="importance" property="importance"/>
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        task_id AS taskId, start_day AS startDay, end_day AS endDay, morning, afternoon, duration, create_time AS createTime, update_time AS updateTime, school_code AS schoolCode
+    </sql>
+
+    <select id="selectByIdAndSchoolCode" parameterType="dckj.arrange.common.model.request.BaseLessonReq"
+            resultMap="BaseResultMap1">
+        select pbl.task_id ,pbl.start_day,pbl.end_day,pbl.morning,pbl.afternoon,pbl.duration,
+        pld.lesson_name,pld.start_time,pld.end_time,pld.free_time,pld.importance,pld.detail_duration
+        from pk_base_lesson pbl
+        left JOIN pk_lesson_detail pld on pbl.task_id = pld.task_id
+        <if test="_parameter != null">
+            <where>
+                <if test="schoolCode != null and schoolCode != ''">
+                    and pbl.school_code = #{schoolCode,jdbcType=VARCHAR}
+                </if>
+                <if test="taskId != null and taskId != ''">
+                    and pbl.task_id = #{taskId,jdbcType=VARCHAR}
+                </if>
+            </where>
+        </if>
+    </select>
+
+</mapper>

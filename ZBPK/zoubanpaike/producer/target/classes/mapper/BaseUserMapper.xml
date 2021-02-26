@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.BaseUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.BaseUser">
+        <id column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="nickname" property="nickname"/>
+        <result column="gender" property="gender"/>
+        <result column="head_pic" property="headPic"/>
+        <result column="duty_id" property="dutyId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="learning_phase_id" property="learningPhaseId"/>
+        <result column="register_type" property="registerType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="face_id" property="faceId"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, account, phone, password, email, nickname, gender, head_pic , duty_id , role_id ,
+        learning_phase_id , register_type , create_time , update_time , last_login_time , face_id , status
+    </sql>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into base_user (<include refid="Base_Column_List"/>) values
+        <foreach collection="list" item="users" separator=",">
+            (#{users.id,jdbcType=VARCHAR} ,#{users.account,jdbcType=VARCHAR} ,#{users.phone,jdbcType=VARCHAR}
+            ,#{users.password,jdbcType=VARCHAR} ,
+            #{users.email,jdbcType=VARCHAR} ,#{users.nickname,jdbcType=VARCHAR} ,#{users.gender,jdbcType=VARCHAR}
+            ,#{users.headPic,jdbcType=VARCHAR} ,#{users.dutyId,jdbcType=INTEGER} ,
+            #{users.roleId,jdbcType=INTEGER} ,#{users.learningPhaseId,jdbcType=VARCHAR}
+            ,#{users.registerType,jdbcType=INTEGER} ,#{users.createTime,jdbcType=TIMESTAMP} ,
+            #{users.updateTime,jdbcType=TIMESTAMP} ,#{users.lastLoginTime,jdbcType=TIMESTAMP}
+            ,#{users.faceId,jdbcType=INTEGER} ,#{users.status,jdbcType=INTEGER} )
+        </foreach>
+    </insert>
+    <update id="updateByUserId" parameterType="java.util.List">
+        update base_user set status = 0,update_time = now() where
+        id in
+        <foreach collection="list" item="userIds" open="(" separator="," close=")">
+            #{userIds}
+        </foreach>
+    </update>
+</mapper>

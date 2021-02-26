@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkGradeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkGrade">
+        <id column="grade_id" property="gradeId"/>
+        <result column="grade_name" property="gradeName"/>
+        <result column="grade_managers" property="gradeManagers"/>
+        <result column="school_code" property="schoolCode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="dckj.arrange.common.model.request.GradeVo">
+        <id column="grade_id" property="gradeId"/>
+        <result column="grade_name" property="gradeName"/>
+        <result column="class_num" property="classNum"/>
+        <result column="manager_names" property="managerNames"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        grade_id , grade_name , grade_managers , school_code , create_time , update_time
+    </sql>
+    <select id="selectListByCode" resultMap="BaseResultMap1">
+        SELECT
+        pg.grade_id,
+        pg.grade_name,
+        ( SELECT count( 1 ) FROM pk_class pc WHERE pc.grade_id = pg.grade_id ) class_num,
+        ( SELECT group_concat( ti.teacher_name ) FROM pk_teacher_info ti WHERE FIND_IN_SET( ti.user_id,
+        pg.grade_managers ) ) manager_names
+        FROM
+        pk_grade pg
+        <if test="schoolCode != null and schoolCode != ''">
+            <where>
+                and pg.school_code = #{schoolCode,jdbcType=VARCHAR}
+            </where>
+        </if>
+        ORDER BY
+        pg.create_time DESC
+    </select>
+</mapper>

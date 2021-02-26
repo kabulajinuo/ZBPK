@@ -1,0 +1,44 @@
+server:
+  port: 1008
+  servlet:
+    context-path: /
+#Config Alibaba's Druid DataSource
+spring:
+  redis:
+    host: 47.104.8.131
+    password: 19941016jin
+    port: 6179
+    ssl: false
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    timeout: 30000
+  application:
+    name: zbpk-gateway-service
+  jackson:
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss # Timestamp convert
+    time-zone: GMT+8
+  jmx:
+    default-domain: zbpk-gateway-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true # 设置本客户端是否从服务注册中心获取服务 默认true
+    serviceUrl:
+      defaultZone: http://zbpk:19941016jin@localhost:1009/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30 # 设置注册的服务多久向服务注册中心发送心跳包(单位s)
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance-id:${server.port}}
+# 配置需要监听的Feign客户端调用日志,Feign日志记录仅响应DEBUG级别
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+
+
+
+

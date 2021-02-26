@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkLessonDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkLessonDetail">
+        <result column="task_id" property="taskId"/>
+        <result column="lesson_name" property="lessonName"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="detail_duration" property="detailDuration"/>
+        <result column="free_time" property="freeTime"/>
+        <result column="importance" property="importance"/>
+        <result column="school_code" property="schoolCode"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        task_id , lesson_name , start_time , end_time , detail_duration , free_time , importance, school_code, create_time
+    </sql>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into pk_lesson_detail (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="list" item="lessonDetails" separator=",">
+            (#{lessonDetails.taskId,jdbcType=VARCHAR} ,#{lessonDetails.lessonName,jdbcType=VARCHAR}
+            ,#{lessonDetails.startTime,jdbcType=VARCHAR} ,
+            #{lessonDetails.endTime,jdbcType=VARCHAR} ,#{lessonDetails.detailDuration,jdbcType=INTEGER}
+            ,#{lessonDetails.freeTime,jdbcType=INTEGER} ,
+            #{lessonDetails.importance,jdbcType=INTEGER} ,#{lessonDetails.schoolCode,jdbcType=VARCHAR}
+            ,#{lessonDetails.createTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <delete id="deleteByTaskId" parameterType="java.lang.String">
+        delete  from pk_lesson_detail where task_id = #{taskId}
+    </delete>
+    <update id="updateByTaskId" parameterType="dckj.arrange.common.entity.PkLessonDetail">
+        update pk_lesson_detail
+        <set>
+            <if test="lessonName != null and lessonName != ''">
+                lesson_name = #{lessonName,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="detailDuration != null">
+                detail_duration = #{detailDuration,jdbcType=INTEGER} ,
+            </if>
+            <if test="freeTime != null ">
+                free_time = #{freeTime,jdbcType=INTEGER} ,
+            </if>
+            <if test="importance != null">
+                importance = #{importance,jdbcType=INTEGER} ,
+            </if>
+            <if test="schoolCode != null and schoolCode != ''">
+                school_code = #{schoolCode,jdbcType=VARCHAR} ,
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP} ,
+            </if>
+        </set>
+        where task_id = #{taskId,jdbcType=VARCHAR}
+    </update>
+</mapper>

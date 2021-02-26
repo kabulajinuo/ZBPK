@@ -1,0 +1,30 @@
+2020-05-13 14:24:59,694 [main] INFO  [dckj.arrange.producer.MQReceiver.MqTest] SpringApplication.java:646 - No active profile set, falling back to default profiles: default
+2020-05-13 14:25:01,570 [main] INFO  [com.alibaba.druid.pool.DruidDataSource] Log4j2Impl.java:106 - {dataSource-1} inited
+2020-05-13 14:25:02,542 [main] WARN  [com.baomidou.mybatisplus.toolkit.TableInfoHelper] TableInfoHelper.java:188 - Warn: Could not find @TableId in Class: dckj.arrange.common.entity.PkLessonDetail.
+2020-05-13 14:25:02,542 [main] WARN  [com.baomidou.mybatisplus.mapper.AutoSqlInjector] AutoSqlInjector.java:147 - class dckj.arrange.common.entity.PkLessonDetail ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2020-05-13 14:25:03,822 [main] INFO  [s.d.s.w.PropertySourcedRequestMappingHandlerMapping] PropertySourcedRequestMappingHandlerMapping.java:69 - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-05-13 14:25:04,040 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-05-13 14:25:04,041 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-05-13 14:25:04,049 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-05-13 14:25:04,050 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-05-13 14:25:06,023 [main] INFO  [s.d.s.web.plugins.DocumentationPluginsBootstrapper] DocumentationPluginsBootstrapper.java:151 - Context refreshed
+2020-05-13 14:25:06,044 [main] INFO  [s.d.s.web.plugins.DocumentationPluginsBootstrapper] DocumentationPluginsBootstrapper.java:154 - Found 1 custom documentation plugin(s)
+2020-05-13 14:25:06,078 [main] INFO  [s.d.spring.web.scanners.ApiListingReferenceScanner] ApiListingReferenceScanner.java:41 - Scanning for api listing references
+2020-05-13 14:25:06,230 [main] INFO  [s.d.s.w.r.operation.CachingOperationNameGenerator] CachingOperationNameGenerator.java:40 - Generating unique operation named: exportTemplateUsingPOST_1
+2020-05-13 14:25:06,463 [main] INFO  [dckj.arrange.producer.MQReceiver.MqTest] StartupInfoLogger.java:59 - Started MqTest in 7.536 seconds (JVM running for 8.847)
+2020-05-13 14:25:07,482 [Thread-5] INFO  [com.alibaba.druid.pool.DruidDataSource] Log4j2Impl.java:106 - {dataSource-1} closed
+2020-05-13 14:31:55,016 [main] INFO  [dckj.arrange.producer.MQReceiver.MqTest] SpringApplication.java:646 - No active profile set, falling back to default profiles: default
+2020-05-13 14:31:56,841 [main] INFO  [com.alibaba.druid.pool.DruidDataSource] Log4j2Impl.java:106 - {dataSource-1} inited
+2020-05-13 14:31:57,774 [main] WARN  [com.baomidou.mybatisplus.toolkit.TableInfoHelper] TableInfoHelper.java:188 - Warn: Could not find @TableId in Class: dckj.arrange.common.entity.PkLessonDetail.
+2020-05-13 14:31:57,775 [main] WARN  [com.baomidou.mybatisplus.mapper.AutoSqlInjector] AutoSqlInjector.java:147 - class dckj.arrange.common.entity.PkLessonDetail ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2020-05-13 14:31:59,011 [main] INFO  [s.d.s.w.PropertySourcedRequestMappingHandlerMapping] PropertySourcedRequestMappingHandlerMapping.java:69 - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-05-13 14:31:59,229 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-05-13 14:31:59,229 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-05-13 14:31:59,238 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-05-13 14:31:59,239 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-05-13 14:32:01,115 [main] INFO  [s.d.s.web.plugins.DocumentationPluginsBootstrapper] DocumentationPluginsBootstrapper.java:151 - Context refreshed
+2020-05-13 14:32:01,135 [main] INFO  [s.d.s.web.plugins.DocumentationPluginsBootstrapper] DocumentationPluginsBootstrapper.java:154 - Found 1 custom documentation plugin(s)
+2020-05-13 14:32:01,166 [main] INFO  [s.d.spring.web.scanners.ApiListingReferenceScanner] ApiListingReferenceScanner.java:41 - Scanning for api listing references
+2020-05-13 14:32:01,316 [main] INFO  [s.d.s.w.r.operation.CachingOperationNameGenerator] CachingOperationNameGenerator.java:40 - Generating unique operation named: exportTemplateUsingPOST_1
+2020-05-13 14:32:01,550 [main] INFO  [dckj.arrange.producer.MQReceiver.MqTest] StartupInfoLogger.java:59 - Started MqTest in 7.393 seconds (JVM running for 8.498)
+2020-05-13 14:32:02,571 [Thread-5] INFO  [com.alibaba.druid.pool.DruidDataSource] Log4j2Impl.java:106 - {dataSource-1} closed

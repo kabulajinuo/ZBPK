@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkCurriculumSetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkCurriculumSet">
+        <id column="id" property="id" />
+        <result column="subject_id" property="subjectId" />
+        <result column="task_id" property="taskId" />
+        <result column="curriculum_type" property="curriculumType" />
+        <result column="must_number" property="mustNumber" />
+        <result column="grade_id" property="gradeId" />
+        <result column="choice_number" property="choiceNumber" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, subject_id AS subjectId, curriculum_type AS curriculumType, must_number AS mustNumber, grade_id AS gradeId, choice_number AS choiceNumber, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+    <select id="getCurriculumSetList" parameterType="dckj.arrange.common.model.request.BaseReq" resultType="dckj.arrange.common.model.response.PkCurriculumSetListRes">
+        SELECT pcs.*, ps.subject_name subjectName
+        FROM
+        pk_curriculum_set pcs
+        LEFT JOIN
+        pk_subject ps
+        ON
+        pcs.subject_id=ps.subject_id
+        WHERE
+        pcs.task_id=#{taskId}
+     ORDER BY
+        FIELD(
+        ps.subject_name,
+        '语文',
+        '数学',
+        '英语',
+        '日语',
+        '物理',
+        '历史',
+        '化学',
+        '生物',
+        '地理',
+        '政治',
+        '体育',
+        '美术',
+        '音乐',
+        '信息技术',
+        '通用技术'
+        )
+    </select>
+
+</mapper>

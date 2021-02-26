@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkStudentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkStudent">
+        <id column="user_id" property="userId"/>
+        <result column="grade_id" property="gradeId"/>
+        <result column="class_id" property="classId"/>
+        <result column="stu_no" property="stuNo"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="stu_sex" property="stuSex"/>
+        <result column="reading_way" property="readingWay"/>
+        <result column="start_time" property="startTime"/>
+        <result column="is_graduate" property="isGraduate"/>
+        <result column="school_code" property="schoolCode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="dckj.arrange.common.model.request.StudentVo">
+        <id column="user_id" property="userId"/>
+        <result column="grade_name" property="gradeName"/>
+        <result column="class_name" property="className"/>
+        <result column="stu_no" property="stuNo"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="stu_sex" property="stuSex"/>
+        <result column="reading_way" property="readingWay"/>
+        <result column="start_time" property="startTime"/>
+        <result column="is_graduate" property="isGraduate"/>
+        <result column="school_code" property="schoolCode"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id , grade_id , class_id ,
+        stu_no , stu_name , stu_sex , reading_way , start_time , is_graduate , school_code,
+        create_time ,update_time
+    </sql>
+    <insert id="insertBtach">
+        insert into pk_student (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="list" item="students" separator=",">
+            (#{students.userId,jdbcType=VARCHAR} ,#{students.gradeId,jdbcType=VARCHAR}
+            ,#{students.classId,jdbcType=VARCHAR} ,
+            #{students.stuNo,jdbcType=VARCHAR} ,#{students.stuName,jdbcType=VARCHAR}
+            ,#{students.stuSex,jdbcType=VARCHAR} ,#{students.readingWay,jdbcType=VARCHAR},
+            #{students.startTime,jdbcType=TIMESTAMP} ,#{students.isGraduate,jdbcType=VARCHAR}
+            ,#{students.schoolCode,jdbcType=VARCHAR} ,#{students.createTime,jdbcType=TIMESTAMP} ,
+            #{students.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <select id="selectByCondition" parameterType="dckj.arrange.common.model.request.StudentVo" resultMap="BaseResultMap1">
+        select  ps.user_id ,ps.stu_no,ps.stu_name,ps.stu_sex,ps.reading_way,ps.start_time,ps.is_graduate,
+        pg.grade_name,b.class_name
+        from pk_student ps
+        LEFT JOIN base_user bu on ps.user_id = bu.id
+        LEFT JOIN pk_grade pg on ps.grade_id = pg.grade_id
+        LEFT JOIN pk_class b on ps.class_id = b.id
+        <if test="_parameter != null">
+            <where>
+                <if test="schoolCode != null and schoolCode != ''">
+                    and ps.school_code = #{schoolCode,jdbcType=VARCHAR}
+                </if>
+                <if test="stuNo != null and stuNo != ''">
+                    and ps.stu_no = #{stuNo,jdbcType=VARCHAR}
+                </if>
+                <if test="stuName != null and stuName != ''">
+                    and ps.stu_name = #{stuName,jdbcType=VARCHAR}
+                </if>
+                <if test="gradeId != null and gradeId != ''">
+                    and pg.grade_id = #{gradeId,jdbcType=VARCHAR}
+                </if>
+                <if test="classId != null and classId != ''">
+                    and b.id = #{classId,jdbcType=VARCHAR}
+                </if>
+                and bu.`status` = '1'
+            </where>
+        </if>
+    </select>
+    <select id="selectByCodeAndStuNo" parameterType="dckj.arrange.common.model.request.StudentVo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM pk_student WHERE school_code = #{schoolCode,jdbcType=VARCHAR} AND stu_no = #{stuNo,jdbcType=VARCHAR}
+        and <![CDATA[ user_id <> #{userId,jdbcType=VARCHAR}  ]]>
+    </select>
+    <update id="updateBatchByUserId" parameterType="java.util.List">
+        update pk_student set update_time = now() where user_id
+        in
+        <foreach collection="list" item="students" open="(" separator="," close=")">
+            #{students}
+        </foreach>
+    </update>
+</mapper>

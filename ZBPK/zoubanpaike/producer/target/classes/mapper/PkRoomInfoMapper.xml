@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkRoomInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkRoomInfo">
+        <id column="room_id" property="roomId"/>
+        <result column="site_id" property="siteId"/>
+        <result column="room_type" property="roomType"/>
+        <result column="subject_ids" property="subjectIds"/>
+        <result column="room_name" property="roomName"/>
+        <result column="man_quantity" property="manQuantity"/>
+        <result column="best_larger" property="bestLarger"/>
+        <result column="create_time" property="createTime"/>
+        <result column="school_code" property="schoolCode"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="dckj.arrange.common.model.request.RoomInfoVo">
+        <id column="room_id" property="roomId"/>
+        <result column="room_name" property="roomName"/>
+        <result column="site_name" property="siteName"/>
+        <result column="man_quantity" property="manQuantity"/>
+        <result column="best_larger" property="bestLarger"/>
+        <result column="type_name" property="typeName"/>
+        <result column="subject_names" property="subjectNames"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        room_id , site_id , room_type , subject_ids, room_name , man_quantity , best_larger , create_time , school_code
+    </sql>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into pk_room_info (<include refid="Base_Column_List"/>) values
+        <foreach collection="list" item="roomInfo" separator=",">
+            (#{roomInfo.roomId,jdbcType=VARCHAR} ,#{roomInfo.siteId,jdbcType=VARCHAR} ,#{roomInfo.roomType,jdbcType=INTEGER} ,
+            #{roomInfo.subjectIds,jdbcType=VARCHAR} ,#{roomInfo.roomName,jdbcType=VARCHAR} ,#{roomInfo.manQuantity,jdbcType=INTEGER} ,
+            #{roomInfo.bestLarger,jdbcType=INTEGER} ,#{roomInfo.createTime,jdbcType=TIMESTAMP} ,#{roomInfo.schoolCode,jdbcType=VARCHAR} )
+        </foreach>
+    </insert>
+    <select id="selectBySchooleCode" parameterType="dckj.arrange.common.model.request.RoomInfoVo"
+            resultMap="BaseResultMap1">
+        SELECT
+        a.room_id,
+        a.room_name,
+        a.site_name,
+        a.man_quantity,
+        a.best_larger,
+        a.type_name,
+        ( CASE WHEN inSubjectCount = allSubjectCount THEN '所有科目' ELSE subjectNames END ) subject_names
+        FROM
+        (
+        SELECT
+        r.room_id,
+        r.room_name,
+        ps.site_name,
+        r.man_quantity,
+        r.best_larger,
+        t.type_name,
+        ( SELECT group_concat( s.subject_name ) FROM pk_subject s WHERE FIND_IN_SET ( s.subject_id, r.subject_ids ) )
+        subjectNames,
+        ( SELECT count( 1 ) FROM pk_subject s WHERE FIND_IN_SET ( s.subject_id, r.subject_ids ) ) inSubjectCount,
+        ( SELECT count( 1 ) FROM pk_subject ) allSubjectCount
+        FROM
+        pk_room_info r
+        LEFT JOIN pk_room_type t ON r.room_type = t.type_id
+        LEFT JOIN pk_site ps ON ps.site_id = r.site_id
+        <where>
+            <if test="schoolCode != null and schoolCode != ''">
+                and r.school_code = #{schoolCode,jdbcType=VARCHAR}
+            </if>
+            <if test="siteId != null and siteId != ''">
+                and r.site_id = #{siteId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by r.create_time desc
+        ) a
+    </select>
+
+    <select id="selectWithOutPage" resultMap="BaseResultMap"
+            parameterType="dckj.arrange.common.model.request.RoomInfoVo">
+        select room_id,room_name from pk_room_info where site_id = #{siteId,jdbcType=VARCHAR} ORDER BY create_time desc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dckj.arrange.producer.mapper.PkTeachingTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dckj.arrange.common.entity.PkTeachingTask">
+        <id column="id" property="id" />
+        <result column="task_id" property="taskId" />
+        <result column="continuou_num" property="continuouNum" />
+        <result column="subject_id" property="subjectId" />
+        <result column="teacher_id" property="teacherId" />
+        <result column="teacher_name" property="teacherName" />
+        <result column="must_number" property="mustNumber" />
+        <result column="choice_number" property="choiceNumber" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, subject_id AS subjectId, teacher_id AS teacherId, teacher_name AS teacherName, must_number AS mustNumber, choice_number AS choiceNumber, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+</mapper>
